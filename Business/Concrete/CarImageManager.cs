@@ -55,8 +55,6 @@ namespace Business.Concrete
         public IResult Add(IFormFile file, CarImage carImage)
         {
 
-            ImageUpload upload = new ImageUpload();
-
             var result = FileHelper.Upload(file);
             if (!result.SuccessStatus)
             {
