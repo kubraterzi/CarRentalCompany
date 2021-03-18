@@ -21,27 +21,28 @@ namespace DataAccess.Concrete.EntityFramework
                              on c.CarID equals r.CarID
                              join b in context.Brands
                              on c.BrandID equals b.BrandID
+                             join color in context.Colors
+                             on c.ColorID equals color.ColorID
                              join cstmr in context.Customers
                              on r.CustomerID equals cstmr.CustomerID
-                             join u in context.Users
-                             on cstmr.UserID equals u.Id
-                             select new RentalDetailDto 
+                             select new RentalDetailDto
                              {
-                                  RentalID = r.RentalID,
-                                  CarName = b.BrandName,
-                                  CustomerName = u.FirstName,
-                                  CustomerLastName= u.LastName,
-                                  CompanyName= cstmr.CompanyName,
-                                  RentDate = r.RentDate,
-                                  ReturnDate=r.ReturnDate
-                                                              
+                                 RentalID = r.RentalID,
+                                 CustomerID=cstmr.CustomerID,
+                                 CarName = b.BrandName,
+                                 ColorName = color.ColorName,
+                                 CustomerInfo = $"{cstmr.FirstName} {cstmr.LastName}",
+                                 CompanyName = cstmr.CompanyName,
+                                 RentDate = r.RentDate,
+                                 ReturnDate = r.ReturnDate
+
                              };
                 return result.ToList();
 
             }
         }
-        
-        
+
+
         public bool DeleteRentalIfNotReturnDateNull(Rental rental)
         {
             using (CarRentalCompanyContext context = new CarRentalCompanyContext())
@@ -55,7 +56,7 @@ namespace DataAccess.Concrete.EntityFramework
                 }
                 return false;
             }
-            
+
         }
     }
 }

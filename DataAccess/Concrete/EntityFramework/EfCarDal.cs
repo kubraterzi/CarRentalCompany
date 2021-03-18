@@ -13,29 +13,34 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalCompanyContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetails()
+        public List<CarDetailDto> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             using (CarRentalCompanyContext context = new CarRentalCompanyContext())
             {
-                var result = from c in context.Cars
+                var result = from c in filter == null ? context.Cars : context.Cars.Where(filter)
                              join b in context.Brands
-                             on c.BrandID equals b.BrandID
+                                 on c.BrandID equals b.BrandID
                              join co in context.Colors
-                             on c.ColorID equals co.ColorID
+                                 on c.ColorID equals co.ColorID
                              select new CarDetailDto
                              {
                                  CarID = c.CarID,
+                                 BrandID = b.BrandID,
+                                 ColorID = c.ColorID,
                                  BrandName = b.BrandName,
                                  BrandModel = b.BrandModel,
                                  ColorName = co.ColorName,
+                                 ModelYear = c.ModelYear,
                                  DailyPrice = c.DailyPrice,
-                                 Description = c.Description
+                                 Description = c.Description,
+                                 ImagePath = (from i in context.CarImages where i.CarID == c.CarID select i.ImagePath).ToList()
                              };
                 return result.ToList();
             }
         }
 
-        
+
+
         public bool DeleteCarIfNotReturnDateNull(Car car)
         {
             using (CarRentalCompanyContext context = new CarRentalCompanyContext())
@@ -47,10 +52,9 @@ namespace DataAccess.Concrete.EntityFramework
                     context.SaveChanges();
                     return true;
                 }
+
                 return false;
             }
-            
         }
-
     }
 }

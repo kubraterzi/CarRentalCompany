@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text;
 using Business.Abstract;
+using Core.Aspects.Autofac.Caching;
 using Core.Constants;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
@@ -24,11 +25,17 @@ namespace Business.Concrete
             _imageDal = imageDal;
         }
 
+
+
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetAll()
         {
             return new SuccessDataResult<List<CarImage>>(_imageDal.GetAll(), Messages.Listed);
         }
 
+
+
+        [CacheAspect]
         public IDataResult<List<CarImage>> GetImagesByCarId(int carId)
         {
             //return new SuccessDataResult<List<CarImage>>(_imageDal.GetAll(i => i.CarID == carId), Messages.Listed);
@@ -46,53 +53,76 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(images);
         }
 
+
+
+        [CacheAspect]
         public IDataResult<CarImage> GetById(int imageId)
         {
             return new SuccessDataResult<CarImage>(_imageDal.Get(i => i.ImageID == imageId));
 
         }
 
+
+
+        //[CacheRemoveAspect("ICarImageService.Get")]
         public IResult Add(IFormFile file, CarImage carImage)
         {
+            var result = BusinessRules.Run(
+                CheckIfImageCount(carImage), 
+                CheckIfImageExtensionValid(file));
 
-            var result = FileHelper.Upload(file);
-            if (!result.SuccessStatus)
+            if (result != null)
             {
-                return new ErrorResult(result.Message);
+                return result;
             }
+                      
 
-            carImage.ImagePath = result.Data;
+            carImage.ImagePath = FileHelper.Add(file);
+            carImage.Date = DateTime.Now;
             _imageDal.Add(carImage);
             return new SuccessResult("Car image added");
+
         }
 
-        public IResult Update(IFormFile file,CarImage carImage)
+        public IResult AddCollective(IFormFile[] files, CarImage carImage)
         {
-            var image = _imageDal.Get(c => c.ImageID == carImage.ImageID);
-            if (image == null)
+            foreach (var file in files)
             {
-                return new ErrorResult("Image not found.");
+                carImage = new CarImage { CarID = carImage.CarID };
+                Add(file, carImage);
+            }
+            return new SuccessResult();
+        }
+
+
+
+        [CacheRemoveAspect("ICarImageService.Get")]
+        public IResult Update(IFormFile file, CarImage carImage)
+        {
+            var result = BusinessRules.Run(
+               CheckIfImageExtensionValid(file));
+
+            if (result != null)
+            {
+                return result;
             }
 
-            var updatedFile = FileHelper.Update(file,image.ImagePath);
-            if (!updatedFile.SuccessStatus)
-            {
-                return new ErrorResult(updatedFile.Message);
-            }
-            carImage.ImagePath = updatedFile.Data;
+            CarImage oldCarImage = GetById(carImage.ImageID).Data;
+            carImage.ImagePath = FileHelper.Update(file, oldCarImage.ImagePath);
+            carImage.Date = DateTime.Now;
+            carImage.CarID = oldCarImage.CarID;
             _imageDal.Update(carImage);
             return new SuccessResult("Car image updated");
         }
 
+
+
+        [CacheRemoveAspect("ICarImageService.Get")]
         public IResult Delete(CarImage carImage)
         {
-            var image = _imageDal.Get(c => c.ImageID == carImage.ImageID);
-            if (image == null)
-            {
-                return new ErrorResult("Image not found");
-            }
 
-            FileHelper.Delete(image.ImagePath);
+            string oldPath = GetById(carImage.ImageID).Data.ImagePath;
+            FileHelper.Delete(oldPath);
             _imageDal.Delete(carImage);
             return new SuccessResult(Messages.Deleted);
         }
@@ -100,12 +130,25 @@ namespace Business.Concrete
         private IResult CheckIfImageCount(CarImage carImage)
         {
             List<CarImage> gelAll = _imageDal.GetAll(i => i.CarID == carImage.CarID);
-            var result = (gelAll.Count() >=5 );
+            var result = (gelAll.Count() >= 15);
             if (result)
             {
                 return new ErrorResult("Bir aracın en fazla 5 resmi olabilir.");
             }
             return new SuccessResult();
         }
+
+        private IResult CheckIfImageExtensionValid(IFormFile file)
+        {
+            string[] validImageFileTypes = { ".JPG", ".JPEG", ".PNG", ".TIF", ".TIFF", ".GIF", ".BMP", ".ICO", ".WEBP" };
+            var result = validImageFileTypes.Any(t => t == Path.GetExtension(file.FileName).ToUpper());
+            if (!result)
+            {
+                return new ErrorResult("Geçersiz uzantı");
+            }
+            return new SuccessResult();
+        }
+
+
     }
 }

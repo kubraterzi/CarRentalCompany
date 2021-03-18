@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
@@ -21,26 +22,41 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
+        
+        [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.Listed);
         }
 
+        
+        
+        [CacheAspect]
         public IDataResult<List<Rental>> GetRentalByUndelivered()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r=> r.ReturnDate == null),Messages.Listed);
         }
 
+        
+        
+        [CacheAspect]
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.Listed);
         }
 
+        
+        
+        [CacheAspect]
         public IDataResult<Rental> GetById(int carId)
         {
             return new SuccessDataResult<Rental>(_rentalDal.Get(r=> r.CarID == carId), Messages.Listed);
         }
 
+        
+        
+        
+        [CacheRemoveAspect("IRentalService.Get")]
         [ValidationAspect(typeof(RentalValidator), Priority =1)]
         public IResult Add(Rental rental)
         {
@@ -55,6 +71,9 @@ namespace Business.Concrete
             }
         }
 
+        
+        
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Delete(Rental rental)
         {
             var result = _rentalDal.DeleteRentalIfNotReturnDateNull(rental);
@@ -66,7 +85,11 @@ namespace Business.Concrete
             return new ErrorResult(Messages.NotDeleted);
         }
 
+        
+        
+        
         [ValidationAspect(typeof(RentalValidator), Priority =1)]
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);

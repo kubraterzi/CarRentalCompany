@@ -35,6 +35,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getimagesbycar")]
+        public IActionResult GetImagesByCar(int carId)
+        {
+            var result = _imageService.GetImagesByCarId(carId);
+            if (result.SuccessStatus)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int imageId)
         {
@@ -49,9 +60,9 @@ namespace WebAPI.Controllers
 
 
         [HttpPost("add")]
-        public IActionResult Add([FromForm] IFormFile file, [FromForm] CarImage carImage)
+        public IActionResult Add([FromForm] IFormFile[] files, [FromForm] CarImage carImage)
         {
-            var result = _imageService.Add(file, carImage);
+            var result = _imageService.AddCollective(files, carImage);
             if (result.SuccessStatus)
             {
                 return Ok(result);

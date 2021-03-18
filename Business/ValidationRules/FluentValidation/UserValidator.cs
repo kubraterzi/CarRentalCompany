@@ -19,8 +19,8 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(u => u.Email).NotEmpty().WithMessage(AspectMessages.CanNotBeBlank);
             RuleFor(u => u.Email).EmailAddress().WithMessage(AspectMessages.InvalidEmailAddress);
 
-            //RuleFor(u => u.UserPassword).NotEmpty().WithMessage("Password cannot be blank.");
-            //RuleFor(u => u.UserPassword).Must(IsPasswordValid).WithMessage("Your password must contain at least eight characters, at least one letter and one number!");
+            // RuleFor(u => u.Password).NotEmpty().WithMessage("Password cannot be blank.");
+            // RuleFor(u => u.Password).Must(IsPasswordValid).WithMessage("Your password must contain at least eight characters, at least one letter and one number!");
         }
         
         //private bool IsPasswordValid(string arg)

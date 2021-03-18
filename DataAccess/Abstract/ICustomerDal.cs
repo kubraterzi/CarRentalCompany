@@ -9,8 +9,7 @@ namespace DataAccess.Abstract
 {
     public interface  ICustomerDal : IEntityRepository<Customer>
     {
-        List<CustomerRentalDetailDto> GetRentalAndCustomerDetails();
-        List<CustomerDetailDto> GetCustomerDetails();
+        //List<CustomerDetailDto> GetCustomerDetails();
         bool DeleteCustomerIfNotReturnDateNull(Customer customer);
     }
 }
