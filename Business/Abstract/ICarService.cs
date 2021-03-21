@@ -23,6 +23,8 @@ namespace Business.Abstract
         IResult Update(Car car);
         IResult TransactionalTest(Car car);
 
+        IDataResult<List<CarDetailDto>> GetWithDetails(FilterDto filter);
+
 
     }
 }

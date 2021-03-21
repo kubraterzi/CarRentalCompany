@@ -12,7 +12,7 @@ using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
-using System.Linq.Expressions;
+using Core.Utilities.Filter;
 
 namespace Business.Concrete
 {
@@ -126,6 +126,35 @@ namespace Business.Concrete
         public IDataResult<List<CarDetailDto>> GetCarDetailsByCar(int carId)
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(c=> c.CarID == carId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetWithDetails(FilterDto filter)
+        {
+            //Expression propertyExp, someValue, containsMethodExp, combinedExp;
+            //Expression<Func<CarDetailDto, bool>> exp = c => true, oldExp;
+            //MethodInfo method;
+
+            //var parameterExp = Expression.Parameter(typeof(CarDetailDto), "type");
+            //foreach (PropertyInfo propertyInfo in filter.GetType().GetProperties())
+            //{
+            //    if (propertyInfo.GetValue(filter,null) != null)
+            //    {
+            //        oldExp = exp;
+            //        propertyExp = Expression.Property(parameterExp, propertyInfo.Name);
+            //        method = typeof(object).GetMethod("Equals", new[] { typeof(object) });
+            //        someValue = Expression.Constant(filter.GetType().GetProperty(propertyInfo.Name).GetValue(filter,null),typeof(object));
+            //        containsMethodExp = Expression.Call(propertyExp, method, someValue);
+            //        exp = Expression.Lambda<Func<CarDetailDto, bool>>(containsMethodExp, parameterExp);
+            //        combinedExp = Expression.AndAlso(exp.Body, oldExp.Body);
+            //        exp = Expression.Lambda<Func<CarDetailDto, bool>>(combinedExp, exp.Parameters[0]);
+            //    }
+            //}
+
+            var exp = Filter.DynamicFilter<CarDetailDto, FilterDto>(filter);
+            
+
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsFatih(exp));
+
         }
     }
 }

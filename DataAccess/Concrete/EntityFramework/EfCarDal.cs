@@ -33,7 +33,9 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = c.ModelYear,
                                  DailyPrice = c.DailyPrice,
                                  Description = c.Description,
-                                 ImagePath = (from i in context.CarImages where i.CarID == c.CarID select i.ImagePath).ToList()
+                                 ImagePath = (from i in context.CarImages where i.CarID == c.CarID select i.ImagePath).ToList(),
+                                 IsRentable = context.Rentals.Any(r => r.CarID == c.CarID && r.ReturnDate == null)
+                                 //IsRentable = (from r in context.Rentals where r.CarID == c.CarID && r.ReturnDate == null ).Any()
                              };
                 return result.ToList();
             }
@@ -54,6 +56,35 @@ namespace DataAccess.Concrete.EntityFramework
                 }
 
                 return false;
+            }
+        }
+
+        public List<CarDetailDto> GetCarDetailsFatih(Expression<Func<CarDetailDto, bool>> filter = null)
+        {
+            using (CarRentalCompanyContext context = new CarRentalCompanyContext())
+            {
+                var result = from c in context.Cars 
+                             join b in context.Brands
+                                 on c.BrandID equals b.BrandID
+                             join co in context.Colors
+                                 on c.ColorID equals co.ColorID
+                             select new CarDetailDto
+                             {
+                                 CarID = c.CarID,
+                                 BrandID = b.BrandID,
+                                 ColorID = c.ColorID,
+                                 BrandName = b.BrandName,
+                                 BrandModel = b.BrandModel,
+                                 ColorName = co.ColorName,
+                                 ModelYear = c.ModelYear,
+                                 DailyPrice = c.DailyPrice,
+                                 Description = c.Description,
+                                 ImagePath = (from i in context.CarImages where i.CarID == c.CarID select i.ImagePath).ToList(),
+                                 IsRentable = !context.Rentals.Any(r=>r.CarID == c.CarID) || context.Rentals.Any(r => r.CarID == c.CarID && (r.ReturnDate == null || (r.ReturnDate.HasValue && r.ReturnDate > DateTime.Now )))
+                             };
+
+                return filter == null ? result.ToList() : result.Where(filter).ToList();
+           
             }
         }
     }

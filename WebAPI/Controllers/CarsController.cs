@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -138,6 +139,30 @@ namespace WebAPI.Controllers
         public IActionResult Delete(Car car)
         {
             var result = _carService.Delete(car);
+            if (result.SuccessStatus)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+
+
+        [HttpGet("GetWithFilter")]
+        public IActionResult GetWithFilter(int? brandId, int? colorId, int? status)
+        {
+            FilterDto filter = new FilterDto
+            {
+                BrandId = brandId,
+                ColorId =colorId,
+                IsRentable = null
+            };
+
+            if (status == 2)
+            {
+                filter.IsRentable = true;
+            }
+
+            var result = _carService.GetWithDetails(filter);
             if (result.SuccessStatus)
             {
                 return Ok(result);
