@@ -22,57 +22,57 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
-        
+
         [CacheAspect]
         public IDataResult<List<Rental>> GetAll()
         {
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.Listed);
         }
 
-        
-        
+
+
         [CacheAspect]
         public IDataResult<List<Rental>> GetRentalByUndelivered()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r=> r.ReturnDate == null),Messages.Listed);
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.ReturnDate == null), Messages.Listed);
         }
 
-        
-        
+
+
         [CacheAspect]
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.Listed);
         }
 
-        
-        
+
+
         [CacheAspect]
         public IDataResult<Rental> GetById(int carId)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(r=> r.CarID == carId), Messages.Listed);
+            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.CarID == carId), Messages.Listed);
         }
 
-        
-        
-        
+
+
+
         [CacheRemoveAspect("IRentalService.Get")]
-        [ValidationAspect(typeof(RentalValidator), Priority =1)]
+        [ValidationAspect(typeof(RentalValidator), Priority = 1)]
         public IResult Add(Rental rental)
         {
-            if (rental.ReturnDate == null)
+            var result = _rentalDal.Get(f =>f.CarID == rental.CarID && (f.ReturnDate == null || f.ReturnDate > DateTime.Now));
+
+            if (result != null)
             {
                 return new ErrorResult(Messages.NotAvailable);
             }
-            else
-            {
-                _rentalDal.Add(rental);
-                return new SuccessResult(Messages.Added);
-            }
+
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.Added);
         }
 
-        
-        
+
+
         [CacheRemoveAspect("IRentalService.Get")]
         public IResult Delete(Rental rental)
         {
@@ -85,10 +85,10 @@ namespace Business.Concrete
             return new ErrorResult(Messages.NotDeleted);
         }
 
-        
-        
-        
-        [ValidationAspect(typeof(RentalValidator), Priority =1)]
+
+
+
+        [ValidationAspect(typeof(RentalValidator), Priority = 1)]
         [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rental)
         {

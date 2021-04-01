@@ -8,6 +8,8 @@ using Entities.DTOs.AuthDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -23,6 +25,7 @@ namespace Business.Concrete
         }
 
 
+        [ValidationAspect(typeof(UserForRegisterDtoValidator))]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto) // buradaki password userForregisterDto içerisinden de gelebilirdi.
         {
             byte[] passwordHash, passwordSalt;
@@ -56,7 +59,7 @@ namespace Business.Concrete
                 return new ErrorDataResult<User>(AspectMessages.PasswordError);
             }
 
-            return new SuccessDataResult<User>(AspectMessages.SuccessfulLogin);
+            return new SuccessDataResult<User>(userToCheck.Data,AspectMessages.SuccessfulLogin);
         }
 
         public IResult UserExists(string email)
