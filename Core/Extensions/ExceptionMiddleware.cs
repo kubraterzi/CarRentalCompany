@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
@@ -17,46 +18,47 @@ namespace Core.Extensions
             _next = next;
         }
 
-        public async Task InvokeAsync(
-            HttpContext httpContext) //api de bir istekte bulunulduğunda herhangi bir metot çağırıldığında, bu çaprı neticesinde tüm sistem bu bloklardan geçiyor. 
+        public async Task InvokeAsync(HttpContext httpContext)
         {
             //tüm kodları try/catch içerisine alıyor.
             try // eğer hata yoksa devam et
             {
-                await _next(httpContext);
+                await _next(httpContext);//api de bir istekte bulunulduğunda herhangi bir metot çağırıldığında, bu çaprı neticesinde tüm sistem bu bloklardan geçiyor. 
             }
-            catch (Exception e) // ama eğer hata varsa handle et
+            catch (Exception e)// ama eğer hata varsa handle et
             {
                 await HandleExceptionAsync(httpContext, e);
             }
         }
 
+
         // eğer çalışan sistemde bir hata varsa, o hata incelemeye alınıyor.
         private Task HandleExceptionAsync(HttpContext httpContext, Exception e)
         {
             httpContext.Response.ContentType = "application/json";
-            httpContext.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             string message = "Internal Server Error";
             IEnumerable<ValidationFailure> errors;
 
             //validation hatası varsa aşağıdaki kodlar çalışacak
-
             if (e.GetType() == typeof(ValidationException))
-                // eğer gelen hata validation hatası ise mesajı aşağıdaki ile değiştir.
+            // eğer gelen hata validation hatası ise mesajı aşağıdaki ile değiştir.
+
             {
+
+                //oluşturduğumuz nesnenin içerisine aşağıdaki bilgileri atadık
                 message = e.Message;
-                errors = ((ValidationException) e).Errors;
+                errors = ((ValidationException)e).Errors;
                 httpContext.Response.StatusCode = 400;
 
-                return httpContext.Response.WriteAsync(
-                    new ValidationErrorDetails // Validation a uygun olan bir hata nesnesi oluşturduk
-                    {
-                        //oluşturduğumuz nesnenin içerisine aşağıdaki bilgileri atadık
-                        StatusCode = 400,
-                        Message = message,
-                        Errors = errors
-                    }.ToString());
+                return httpContext.Response.WriteAsync(new ValidationErrorDetails // Validation a uygun olan bir hata nesnesi oluşturduk
+                {
+                    StatusCode = 400,
+                    Message = message,
+                    Errors = errors
+                }.ToString());
+
             }
 
 

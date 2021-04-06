@@ -19,12 +19,10 @@ namespace Business.Concrete
     public class UserManager : IUserService
     {
         IUserDal _userDal;
-        private IAuthService _authService;
 
-        public UserManager(IUserDal userDal, IAuthService authService)
+        public UserManager(IUserDal userDal)
         {
             _userDal = userDal;
-            _authService = authService;
         }
 
         
@@ -111,7 +109,9 @@ namespace Business.Concrete
             Update(userToUpdate);
             return new SuccessResult();
         }
-        
+
+
+        [ValidationAspect(typeof(UserForRegisterDtoValidator))]
         public IResult ChangeUserPassword(ChangeUserPasswordDto changePasswordDto)
         {
             byte[] passwordHash, passwordSalt;
