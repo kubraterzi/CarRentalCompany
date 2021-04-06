@@ -3,6 +3,7 @@ using Core.Utilities.Results;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Entities.DTOs.AuthDTOs;
 
 namespace Business.Abstract
 {
@@ -17,5 +18,8 @@ namespace Business.Abstract
         IDataResult<List<OperationClaim>> GetClaims(User user);
         IResult Add(User user);
         IDataResult<User> GetByEmail(string email);
+        IResult UpdateUserInfos(ChangeUserInfoDto changeUserInfo);
+        IResult ChangeUserPassword(ChangeUserPasswordDto changePasswordDto);
+
     }
 }

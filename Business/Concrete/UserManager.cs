@@ -10,22 +10,27 @@ using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concrete;
+using Core.Utilities.Security.Hashing;
+using Core.Utilities.Security.JWT;
+using Entities.DTOs.AuthDTOs;
 
 namespace Business.Concrete
 {
     public class UserManager : IUserService
     {
         IUserDal _userDal;
+        private IAuthService _authService;
 
-        public UserManager(IUserDal userDal)
+        public UserManager(IUserDal userDal, IAuthService authService)
         {
             _userDal = userDal;
+            _authService = authService;
         }
 
         
         
         
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<User>> GetAll()
 
         {
@@ -35,7 +40,7 @@ namespace Business.Concrete
         
         
         
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<User> GetById(int userId)
 
         {
@@ -64,7 +69,7 @@ namespace Business.Concrete
         
 
         [ValidationAspect(typeof(UserValidator), Priority =1)]
-        [CacheRemoveAspect("IUserService.Get")]
+        //[CacheRemoveAspect("IUserService.Get")]
         public IResult Update(User user)
         {
             _userDal.Update(user);
@@ -74,7 +79,7 @@ namespace Business.Concrete
         
         
         
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
             return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
@@ -92,10 +97,38 @@ namespace Business.Concrete
 
         
         
-        [CacheAspect]
+        //[CacheAspect]
         public IDataResult<User> GetByEmail(string email)
         {
             return new SuccessDataResult<User>(_userDal.Get(u=> u.Email == email));
+        }
+        
+        public IResult UpdateUserInfos(ChangeUserInfoDto changeUserInfo)
+        {
+            var userToUpdate = GetByEmail(changeUserInfo.Email).Data;
+            userToUpdate.FirstName = changeUserInfo.FirstName;
+            userToUpdate.LastName = changeUserInfo.LastName;
+            Update(userToUpdate);
+            return new SuccessResult();
+        }
+        
+        public IResult ChangeUserPassword(ChangeUserPasswordDto changePasswordDto)
+        {
+            byte[] passwordHash, passwordSalt;
+            var userToCheck = GetByEmail(changePasswordDto.Email);
+            if(userToCheck.Data == null)
+            {
+                return new ErrorResult(AspectMessages.UserNotFound);
+            }
+            if (!HashingHelper.VerifyPasswordHash(changePasswordDto.OldPassword, userToCheck.Data.PasswordHash, userToCheck.Data.PasswordSalt))
+            {
+                return new ErrorResult(AspectMessages.PasswordError);
+            }
+            HashingHelper.CreatePasswordHash(changePasswordDto.NewPassword, out passwordHash, out passwordSalt);
+            userToCheck.Data.PasswordHash = passwordHash;
+            userToCheck.Data.PasswordSalt = passwordSalt;
+            Update(userToCheck.Data);
+            return new SuccessResult(AspectMessages.PasswordChanged);
         }
     }
 }

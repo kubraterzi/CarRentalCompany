@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entities.DTOs.AuthDTOs;
 
 namespace WebAPI.Controllers
 {
@@ -76,5 +77,29 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        
+        [HttpPost("updateuserinfos")]
+        public IActionResult UpdateUserInfos(ChangeUserInfoDto userInfoDto)
+        {
+            var result = _userService.UpdateUserInfos(userInfoDto);
+            if (result.SuccessStatus)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        
+        [HttpPost("changeuserpassword")]
+        public IActionResult ChangeUserPassword(ChangeUserPasswordDto changeUserPassword)
+        {
+            var result = _userService.ChangeUserPassword(changeUserPassword);
+            if (result.SuccessStatus)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
     }
 }

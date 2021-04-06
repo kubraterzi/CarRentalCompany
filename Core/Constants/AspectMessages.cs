@@ -16,5 +16,6 @@
         public static string UserAlreadyExists = "This user already exists.";
         public static string UserRegistered = "User successfully registered.";
         public static string AccessTokenCreated = "Access token successfully created. ";
+        public static string PasswordChanged = "Password Changed. ";
     }
 }
