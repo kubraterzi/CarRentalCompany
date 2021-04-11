@@ -10,7 +10,7 @@ This project is an online car rental project.
 - Autofac
 - FluentValidation
    
-### FrontendTechniques
+### Techniques
 - Layered Architecture Design Pattern
 - AOP
 - JWT
