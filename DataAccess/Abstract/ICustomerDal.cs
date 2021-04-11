@@ -11,5 +11,6 @@ namespace DataAccess.Abstract
     {
         //List<CustomerDetailDto> GetCustomerDetails();
         bool DeleteCustomerIfNotReturnDateNull(Customer customer);
+        
     }
 }

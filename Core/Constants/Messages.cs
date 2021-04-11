@@ -19,5 +19,7 @@ namespace Core.Constants
         public static string MaintenanceTime = "Maintenance Time";
         public static string InvalidEntry = "Invalid Entry";
         public static string NotAvailable = "Not Available";
+        public static string FindeksPointNotEnough = "Findeks Point Not Enough";
+        
     }
 }

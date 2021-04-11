@@ -31,7 +31,6 @@ namespace DataAccess.Concrete.EntityFramework
                                  CustomerID=cstmr.CustomerID,
                                  CarName = b.BrandName,
                                  ColorName = color.ColorName,
-                                 CustomerInfo = $"{cstmr.FirstName} {cstmr.LastName}",
                                  CompanyName = cstmr.CompanyName,
                                  RentDate = r.RentDate,
                                  ReturnDate = r.ReturnDate

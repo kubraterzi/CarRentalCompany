@@ -25,7 +25,7 @@ namespace Business.Concrete
         }
 
 
-        [ValidationAspect(typeof(UserForRegisterDtoValidator))]
+        //[ValidationAspect(typeof(UserForRegisterDtoValidator))]
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto) // buradaki password userForregisterDto içerisinden de gelebilirdi.
         {
             byte[] passwordHash, passwordSalt;

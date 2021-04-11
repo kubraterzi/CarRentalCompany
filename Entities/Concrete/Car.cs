@@ -13,6 +13,8 @@ namespace Entities.Concrete
         public short ModelYear { get; set; }
         public decimal DailyPrice { get; set; }
         public string Description { get; set; }
+        
+        public int MinFindeksPoint { get; set; }
 
     }
 }

@@ -6,11 +6,11 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardController : Controller
+    public class CardsController : Controller
     {
         private ICardService _cardService;
 
-        public CardController(ICardService cardService)
+        public CardsController(ICardService cardService)
         {
             _cardService = cardService;
         }
@@ -30,6 +30,17 @@ namespace WebAPI.Controllers
         public IActionResult GetById(int cardId)
         {
             var result = _cardService.GetById(cardId);
+            if (result.SuccessStatus)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        
+        [HttpGet("getcardsbycustomerid")]
+        public IActionResult GetCardsByCustomerId(int customerId)
+        {
+            var result = _cardService.GetCardsByCustomerId(customerId);
             if (result.SuccessStatus)
             {
                 return Ok(result);

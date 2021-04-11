@@ -36,12 +36,14 @@ namespace ConsoleUI
 
         private static void RentalTest()
         {
+            /*
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
             var result = rentalManager.GetRentalDetails();
             foreach (var results in result.Message)
             {
                 Console.WriteLine(result.Message);
             }
+            */
 
             //rentalManager.Add(new Rental { CarID = 12, CustomerID = 4, RentDate = new DateTime(2021, 02, 12), ReturnDate = new DateTime(2021, 02, 13) });
 

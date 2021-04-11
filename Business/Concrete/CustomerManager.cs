@@ -37,8 +37,12 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Customer>(_customerDal.Get(c => c.CustomerID == customerId));
         }
-        
-        
+
+        public IDataResult<Customer> GetByUserId(int userId)
+        {
+            return new SuccessDataResult<Customer>(_customerDal.Get(c => c.UserID == userId));
+        }
+
 
         [ValidationAspect(typeof(CustomerValidator), Priority =1)]
         [CacheRemoveAspect("ICustomerService.Get")]

@@ -8,8 +8,10 @@ namespace Entities.Concrete
     public class Customer : IEntity
     {
         public int CustomerID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public int UserID { get; set; }
         public string CompanyName { get; set; }
+        
+        public int FindeksPoint { get; set; }
+        
     }
 }
