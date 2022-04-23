@@ -1,0 +1,35 @@
+.carEditButtons{
+  color: #3c5984;
+  background-color: #f5f5f5;
+  border-color: #bdc5ce;
+}
+
+.carEditButtons:hover {
+  color: #eceff3;
+  background-color: #313f54;
+  border-color: #bccad6;
+}
+
+.fontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 21px;
+}
+
+.carRentButton{
+  color: #eceff3;
+  background-color: #313f54;
+  border-color: #bdc5ce;
+  padding: 0.4rem 1.5rem 0.4rem 1.5rem;
+}
+
+.carRentButton:hover {
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #bccad6;
+}
+
+.detailsFontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 16px;
+  color: #070a0e;
+}

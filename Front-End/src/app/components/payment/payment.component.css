@@ -1,0 +1,46 @@
+.fontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 18px;
+  color: #334b6f;
+}
+
+.inputSize{
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem !important;
+}
+
+.paymentButton{
+  color: #eceff3;
+  background-color: #313f54;
+  border-color: #bdc5ce;
+  width: 90px;
+}
+
+.paymentButton:hover {
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #bccad6;
+}
+
+
+.closeButton{
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #bdc5ce;
+}
+
+.closeButton:hover {
+  color:#eceff3;
+  background-color: #313f54;
+  border-color: #bccad6;
+}
+
+.checkBoxButton{
+padding: 0.6rem 1.3rem 0.6rem 1.3rem !important;
+  margin-left: -27px;
+}
+
+.saveCardsFontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 17px;
+  color: #23304a;
+}

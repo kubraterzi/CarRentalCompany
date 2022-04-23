@@ -1,0 +1,14 @@
+<div class="justify-content-center">
+  <form [formGroup]="colorAddForm">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-6">
+        <label for="addColorName" style="font-size: 18px" class="fontInfo"> Color Name: </label>
+        <input type="text" id="addColorName" class="form-control fontInfo inputSize" formControlName="colorName" placeholder="Color Name"
+               aria-label="addColorName" aria-describedby="basic-addon2">
+      </div>
+    </div>
+  </form>
+  <div class="row mt-3">
+    <button (click)="addColor()" class="btn colorAddButton fontInfo m-auto w-50 mt-3 "> Add</button>
+  </div>
+</div>

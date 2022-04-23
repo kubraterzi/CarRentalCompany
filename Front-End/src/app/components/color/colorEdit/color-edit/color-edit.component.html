@@ -1,0 +1,65 @@
+<!--
+<div class="justify-content-center">
+  <form [formGroup]="colorDeleteForm">
+
+    <div class="row justify-content-center align-items-center">
+      <div class="mb-3 col-md-6">
+        <label for="colorID">Color Name</label>
+        <div class="form-group">
+          <select class="form-select" id="colorID" aria-label="Default select example" name="colorName"
+                  formControlName="colorId" [(ngModel)]="colorId">
+            <option [ngValue]='color.colorID' *ngFor="let color of colors"> {{color.colorName}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <button (click)="deleteColor()" class="btn btn-secondary  m-auto w-50 "> Delete</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<div class="justify-content-center">
+  <form [formGroup]="colorUpdateForm">
+    <div class="row mt-3">
+
+      <div class="col-md-6">
+        <label> Choose the one to update.. </label>
+        <div class="form-group">
+          <select class="form-select" aria-label="Default select example" name="colorName"
+                  formControlName="colorId" [(ngModel)]="colorId">
+            <option [ngValue]='color.colorID' *ngFor="let color of colors"> {{color.colorName}} </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <label for="updateColorName"> Color Name: </label>
+        <input type="text" id="updateColorName" class="form-control" formControlName="colorName"
+               placeholder="Color Name" aria-label="updateColorName" aria-describedby="basic-addon2">
+      </div>
+      <div class="row justify-content-center align-items-center mt-3">
+        <button (click)="updateColor()" class="btn btn-secondary  m-auto w-50 "> Update</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+-->
+
+
+<div class="justify-content-center">
+  <form [formGroup]="colorUpdateForm">
+    <div class="row justify-content-center align-items-center">
+      <div class="col-md-6">
+        <label for="updateColorName" style="font-size: 18px" class="fontInfo"> Color Name: </label>
+        <input type="text" id="updateColorName" class="form-control fontInfo inputSize" formControlName="colorName" placeholder="Color Name"
+               aria-label="updateColorName" aria-describedby="basic-addon2">
+      </div>
+    </div>
+  </form>
+  <div class="row mt-3">
+    <button (click)="updateColor()" class="btn colorEditButton fontInfo m-auto w-50 mt-3 "> Update </button>
+  </div>
+</div>

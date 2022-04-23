@@ -1,0 +1,79 @@
+<ul class="list-group">
+  <div class="mt-1 mb-3">
+    <li (click)="getAllCars()" class="list-group-item allCarsDetails fontInfo" aria-disabled="true" routerLink="cars" display="inline">
+      <h4>All Cars</h4>
+    </li>
+  </div>
+
+  <li class="list-group-item bg-white" aria-disabled="true">
+    <div class="btn w-100 text-start " data-bs-toggle="collapse" data-bs-target="#brandCollapse" aria-expanded="false" aria-controls="collapseExample" >
+      <div class="sidebarHeader fontInfo">
+        <h5> Brands </h5>
+        <span class="plusIcon" style="margin-left: 5px">
+          <i style="font-size: 20px" class="btn fas fa-plus iconsColor" *ngIf="isAdmin()" data-bs-toggle="modal" data-bs-target="#brandAddModal" ></i>
+        </span>
+      </div>
+    </div>
+  </li>
+
+  <li id="brandCollapse" (click)="doFilter(brand)" [class]="getCurrentBrandClass(brand)" *ngFor="let brand of brands" >
+    <div class="row">
+      <div class="col-md-6 float-start fontInfo ">
+        <h6>{{ brand.brandName }}</h6>
+      </div>
+
+      <div class="row col-md-4 offset-md-2">
+
+          <div class="col-md-2 "  *ngIf="isAdmin()" (click)="setCurrentBrand(brand)">
+          <i class="fas fa-pen iconsColor" style="margin-right: 5px; " data-bs-toggle="modal" data-bs-target="#brandEditModal"></i>
+          </div>
+
+        <div class="col-md-2 " style="margin-left: 18px" *ngIf="isAdmin()" (click)="deleteBrand(brand)" >
+          <i style="font-size: 22px" class="fas fa-times iconsColor"></i>
+        </div>
+
+      </div>
+    </div>
+  </li>
+</ul>
+
+
+<!--Modals-->
+
+
+<!--Add Modal-->
+<div class="modal fade mt-5" id="brandAddModal" tabindex="-1" aria-labelledby="brandAddModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fontInfo" id="brandAddModalLabel">Add a Brand</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-brand-add></app-brand-add>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Edit Modal-->
+<div class="modal fade mt-5" id="brandEditModal" tabindex="-1" aria-labelledby="brandEditModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fontInfo" id="brandEditModalLabel"> Update a Brand </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-brand-edit></app-brand-edit>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

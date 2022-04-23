@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+.userNameButton{
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #b7bdc1;
+}
+
+/*::ng-deep .btn-secondary:hover {*/
+/*  color: #fff;*/
+/*  background-color: red;*/
+/*  border-color: #bccad6;*/
+/*}*/
+.userNameButton:hover {
+  color: #eceff3;
+  background-color: #313f54;
+  border-color: #bccad6;
+}
+.navbarFirmName{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 38px;
+  color: #474c52;
+}
+.navbarFirmName:hover{
+  color: #3361ab;
+}
+
+.userStateButtons{
+  color: #3361ab;
+  border-color: #151f2d;
+}
+
+.userStateButtons:hover{
+  color: #151f2d ;
+  border-color: #3361ab;
+}
+
+.navbarMenus{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 17px;
+  color: #070a0e;
+}
+

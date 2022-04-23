@@ -1,0 +1,23 @@
+
+<div class="justify-content-center">
+  <form [formGroup]="brandAddForm">
+    <div class="row">
+
+      <div class="col-md-6">
+        <label for="addBrandName" style="font-size: 18px" class="fontInfo"> Brand Name: </label>
+        <input type="text" id="addBrandName" class="form-control fontInfo inputSize" formControlName="brandName" placeholder="Brand Name"
+               aria-label="addBrandName" aria-describedby="basic-addon2">
+      </div>
+
+      <div class="col-md-6">
+        <label for="addBrandModel" style="font-size: 18px" class="fontInfo"> Brand Model: </label>
+        <input type="text" id="addBrandModel" class="form-control fontInfo inputSize" formControlName="brandModel"
+               placeholder="Brand Model" aria-label="addBrandModel" aria-describedby="basic-addon2">
+      </div>
+
+    </div>
+  </form>
+  <div class="row mt-3">
+    <button (click)="addBrand()" class="btn brandAddButton fontInfo m-auto w-50 mt-3 "> Add</button>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+.carRentalButton{
+  color: #eceff3;
+  background-color: #313f54;
+  border-color: #bdc5ce;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+}
+
+.carRentalButton:hover {
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #bccad6;
+}
+
+.paymentButton{
+  color: #eceff3;
+  background-color: #313f54;
+  border-color: #bdc5ce;
+}
+
+.paymentButton:hover {
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #bccad6;
+}
+
+
+.closeButton{
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #bdc5ce;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+}
+
+.fontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 19px;
+  color: #334b6f;
+}
+
+.inputSize{
+  padding: 0.5rem 1.5rem 0.5rem 1.5rem !important;
+}
+
+.fontType{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 17px;
+}

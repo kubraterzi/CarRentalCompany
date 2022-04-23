@@ -1,0 +1,23 @@
+.editIcon{
+  padding: 0 3px 0 3px;
+}
+.colorEditButton{
+  color: #eceff3;
+  background-color: #313f54;
+  border-color: #bdc5ce;
+}
+
+.colorEditButton:hover {
+  color: #313f54;
+  background-color: #eceff3;
+  border-color: #bccad6;
+}
+
+.fontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 19px;
+}
+
+.inputSize{
+  padding: 0.7rem 1.5rem 0.7rem 1.5rem !important;
+}

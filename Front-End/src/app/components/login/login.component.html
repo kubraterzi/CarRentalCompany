@@ -1,0 +1,20 @@
+<body class="text-center">
+<main class="form-signin">
+  <form [formGroup]="loginForm">
+    <h1 class="h3 mb-3 fw-normal fontInfoHeader">Sign In</h1>
+
+    <div class="form-floating mb-2 fontInfo">
+      <input type="email" formControlName="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating mb-2 fontInfo">
+      <input type="password" formControlName="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <button class="w-100 btn loginButton fontInfo mt-4" type="submit" (click)="login()" [disabled]="!loginForm.valid" ><h5> Sign in </h5></button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+  </form>
+</main>
+
+</body>

@@ -1,0 +1,70 @@
+<ul class="list-group">
+<li class="list-group-item bg-white" aria-disabled="true">
+  <div class="btn w-100 text-start " data-bs-toggle="collapse" data-bs-target="#colorCollapse" aria-expanded="false" aria-controls="collapseExample" >
+    <div class="sidebarHeader fontInfo">
+      <h5> Colors </h5>
+      <span class="plusIcon" style="margin-left: 8px">
+          <i style="font-size: 20px" class="btn fas fa-plus iconsColor" *ngIf="isAdmin()" data-bs-toggle="modal" data-bs-target="#colorAddModal" ></i>
+        </span>
+    </div>
+  </div>
+</li>
+
+<li id="colorCollapse" (click)="doFilter(color)" [class]="getCurrentColorClass(color)" *ngFor="let color of colors" >
+  <div class="row">
+    <div class="col-md-6 float-start fontInfo">
+      <h6>{{ color.colorName }}</h6>
+    </div>
+
+    <div class="row col-md-4 offset-md-2">
+
+      <div class="col-md-2 "  *ngIf="isAdmin()" (click)="setCurrentColor(color)">
+        <i class="fas fa-pen iconsColor" style="margin-right: 5px; " data-bs-toggle="modal" data-bs-target="#colorEditModal"></i>
+      </div>
+
+      <div class="col-md-2 " style="margin-left: 18px" *ngIf="isAdmin()" (click)="deleteColor(color)" >
+        <i style="font-size: 22px" class="fas fa-times iconsColor"></i>
+      </div>
+
+    </div>
+  </div>
+</li>
+</ul>
+
+
+
+
+
+<!--Modals-->
+
+
+<!--Add Modal-->
+<div class="modal fade mt-5" id="colorAddModal" tabindex="-1" aria-labelledby="colorAddModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fontInfo" id="brandAddModalLabel">Add a Color</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-color-add></app-color-add>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Edit Modal-->
+<div class="modal fade mt-5" id="colorEditModal" tabindex="-1" aria-labelledby="colorEditModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fontInfo" id="brandEditModalLabel"> Update a Color </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-color-edit></app-color-edit>
+      </div>
+    </div>
+  </div>
+</div>

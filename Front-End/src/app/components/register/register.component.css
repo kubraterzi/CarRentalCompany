@@ -1,0 +1,70 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 450px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 7;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/*My Css Codes*/
+
+.registerButton{
+
+  color: #313f54;
+  background-color: #eceff3;
+  /*border-color: #bccad6;*/
+}
+
+.registerButton:hover {
+  color: #eceff3;
+  background-color: #313f54;
+  /*border-color: #bdc5ce;*/
+  padding: 0.4rem 1.5rem 0.4rem 1.5rem;
+}
+
+.fontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 18px;
+  color: #334b6f;
+}
+
+.fontInfoHeader{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 30px;
+  color: #334b6f;
+}
+
+.inputSize{
+  padding-top: 25px !important
+}

@@ -1,0 +1,123 @@
+<div class="card" style="width: 100%; margin-top: 20px">
+  <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+
+
+      <div class="carousel-item" *ngFor="let carImage of carImagePaths; index as i; first as firstImage"
+           [ngClass]="{ active: firstImage }">
+        <!-- diziye gelen ilk elemaı firstImage atar. Daha sonra, ngClass normal class ın içerisine karşısında yazan boolean değer true ysa active komutu ekliyor. -->
+        <img [src]="imageUrl+ carImage.imagePath" class="d-block w-100" alt="..." style="height: 400px; width: 700px; object-fit: cover"/>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+
+    </div>
+  </div>
+
+  <div class="card-body detailsFontInfo">
+    <h5 class="card-title">
+      {{ carDetail?.brandName }} || {{ carDetail?.brandModel }}
+    </h5>
+    <p class="card-text">{{ carDetail?.description }}</p>
+  </div>
+
+  <ul class="list-group list-group-flush  detailsFontInfo">
+    <li class="list-group-item"><b>Color :</b> {{ carDetail?.colorName }}</li>
+    <li class="list-group-item  detailsFontInfo">
+      <b>Model Year :</b> {{ carDetail?.modelYear }}
+    </li>
+    <li class="list-group-item  detailsFontInfo">
+      <b>Daily Price :</b> {{ carDetail?.dailyPrice | currency: "USD":true:"1.2-2" }}
+    </li>
+    <li class="list-group-item  detailsFontInfo">
+      <b>Status : </b> {{ carDetail?.isRentable ? "Available" : "Not Available" }}
+    </li>
+  </ul>
+</div>
+
+
+<div class="d-flex justify-content-end mt-4" *ngIf="isAdmin()">
+
+  <div class="mx-2">
+    <button type="button" class="btn carEditButtons" data-bs-toggle="modal" data-bs-target="#add">
+      <i style="font-size: 20px" class="fas fa-plus" ></i>
+    </button>
+  </div>
+
+  <div class="mx-2">
+    <button type="button" class="btn carEditButtons" data-bs-toggle="modal" data-bs-target="#edit">
+      <i class="fas fa-pen" *ngIf="isAdmin()"></i>
+    </button>
+  </div>
+
+  <div class="mx-2">
+    <button type="button" class="btn carEditButtons" (click)="deleteCar()">
+      <i style="font-size: 22px" class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
+
+<!-- Modals -->
+<div
+  class="modal fade" id="edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editLabel">Edit This Car</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <app-car-edit [car]="carDetail"></app-car-edit>
+    </div>
+  </div>
+</div>
+
+
+<div
+  class="modal fade" id="add" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addLabel">Add New Car</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <app-car-add></app-car-add>
+    </div>
+  </div>
+</div>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-end" *ngIf="!isAdmin()">
+  <button type="button" class="btn text-center me-md-2 mt-3 carRentButton fontInfo" data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop" [disabled]="carDetail?.isRentable !== true" *ngIf="isAuthenticated()">
+    Rent This Car
+  </button>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fontInfo" id="staticBackdropLabel">Rent This Car</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <app-carrentaldetail [car]="carDetail"></app-carrentaldetail>
+    </div>
+  </div>
+</div>

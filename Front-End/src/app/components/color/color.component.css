@@ -1,0 +1,32 @@
+.sidebarHeader{
+  display: flex;
+}
+.plusIcon{
+  position: relative;
+  left: 64%;
+}
+
+.iconsColor{
+  color : #334b6f;
+}
+
+.allCarsDetails{
+  background-color : #f1f3f5;
+}
+
+.allCarsDetails:hover{
+  color: #3361ab;
+}
+
+.fontInfo{
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 20px;
+  color: #334b6f;
+}
+
+.inputSize{
+  padding: 0.7rem 1.5rem 0.7rem 1.5rem !important;
+}
+
+
+
